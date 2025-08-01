@@ -1,0 +1,10 @@
+ID,Name,Contact,Email,Company,Purpose,NDA Signed,Photo,Entry Method,Liveness Check,Check-In Time,Check-Out Time,Status
+1,Harish Pranav s,7845693765,harishspranav2006@gmail.com,, summa,0,placeholder.png,qr,N/A,2025-06-03 22:06:11,2025-06-03 22:06:42,Checked Out
+2,Harish PRANAV S,7845693765,harishspranav2006@gmail.com,,Student Meeting,0,placeholder.png,manual,N/A,2025-06-03 22:06:55,2025-06-03 22:07:01,Checked Out
+3,Harish PRANAV S,123456,harishspranav2006@gmail.com,company,temple,0,placeholder.png,qr,pending,2025-06-03 22:13:35,2025-06-03 22:16:17,Checked Out
+4,Harish PRANAV S,7845693765,harishspranav2006@gmail.com,,Student Meeting,0,placeholder.png,manual,N/A,2025-06-03 22:27:44,2025-06-03 22:39:46,Checked Out
+5,Senthil Kumar P,06383903223,senthilabirami440@gmail.com,,temple,0,placeholder.png,manual,N/A,2025-06-03 22:40:02,2025-06-03 22:49:20,Checked Out
+6,Anuraag rai s,8438207452,anuraag2006@gmail.com,,Student Meeting,0,placeholder.png,manual,N/A,2025-06-03 22:49:30,2025-06-03 22:57:28,Checked Out
+7,sappa,8438207452,anuraag2006@gmail.com,,Student Meeting,0,placeholder.png,manual,N/A,2025-06-03 22:57:46,2025-06-03 22:58:01,Checked Out
+8,TBJY,7845693765,harishspranav2006@gmail.com,company,Student Meeting,0,placeholder.png,qr,pending,2025-06-04 00:33:55,,Checked In
+9,SACHIN S,7845693765,927624bec178@mkce.ac.in,company,Trip,0,placeholder.png,qr,pending,2025-06-04 01:02:14,,Checked In

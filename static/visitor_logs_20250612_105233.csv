@@ -1,0 +1,39 @@
+ID,Name,Contact,Email,Company,Purpose,NDA Signed,Photo,Entry Method,Liveness Check,Check-In Time,Check-Out Time,Status
+1,Harish Pranav s,7845693765,harishspranav2006@gmail.com,, summa,0,placeholder.png,qr,N/A,2025-06-03 22:06:11,2025-06-03 22:06:42,Checked Out
+2,Harish PRANAV S,7845693765,harishspranav2006@gmail.com,,Student Meeting,0,placeholder.png,manual,N/A,2025-06-03 22:06:55,2025-06-03 22:07:01,Checked Out
+3,Harish PRANAV S,123456,harishspranav2006@gmail.com,company,temple,0,placeholder.png,qr,pending,2025-06-03 22:13:35,2025-06-03 22:16:17,Checked Out
+4,Harish PRANAV S,7845693765,harishspranav2006@gmail.com,,Student Meeting,0,placeholder.png,manual,N/A,2025-06-03 22:27:44,2025-06-03 22:39:46,Checked Out
+5,Senthil Kumar P,06383903223,senthilabirami440@gmail.com,,temple,0,placeholder.png,manual,N/A,2025-06-03 22:40:02,2025-06-03 22:49:20,Checked Out
+6,Anuraag rai s,8438207452,anuraag2006@gmail.com,,Student Meeting,0,placeholder.png,manual,N/A,2025-06-03 22:49:30,2025-06-03 22:57:28,Checked Out
+7,sappa,8438207452,anuraag2006@gmail.com,,Student Meeting,0,placeholder.png,manual,N/A,2025-06-03 22:57:46,2025-06-03 22:58:01,Checked Out
+8,TBJY,7845693765,harishspranav2006@gmail.com,company,Student Meeting,0,placeholder.png,qr,pending,2025-06-04 00:33:55,2025-06-04 01:41:31,Checked Out
+9,SACHIN S,7845693765,927624bec178@mkce.ac.in,company,Trip,0,placeholder.png,qr,pending,2025-06-04 01:02:14,2025-06-04 14:44:42,Checked Out
+10,SHP,7845693765,harishspranav2006@gmail.com,company,temple,0,placeholder.png,qr,pending,2025-06-04 01:20:09,2025-06-04 14:44:46,Checked Out
+11,anuraag,8438207452,anuraag2006@gmail.com,company,Student Meeting,0,placeholder.png,qr,pending,2025-06-04 01:27:50,2025-06-04 14:45:24,Checked Out
+12,anurag,8438207452,anuraag2006@gmail.com,company,Student Meeting,0,placeholder.png,qr,pending,2025-06-04 01:29:29,2025-06-04 14:45:26,Checked Out
+13,soban,9790137452,soba2006@gmail.com,company,Student Meeting,0,placeholder.png,qr,pending,2025-06-04 01:39:06,2025-06-04 14:45:48,Checked Out
+14,sappa,8438207452,anuraag2006@gmail.com,,Student Meeting,0,placeholder.png,manual,N/A,2025-06-04 01:41:03,2025-06-04 14:45:28,Checked Out
+15,Ravi,7459683255,ravi440@gmail.com,,Admission,0,placeholder.png,biometric,N/A,2025-06-04 14:38:02,2025-06-04 14:45:06,Checked Out
+16,soban,7845693765,soba2006@gmail.com,company,Student Meeting,0,placeholder.png,qr,pending,2025-06-04 14:43:52,2025-06-04 14:44:48,Checked Out
+17,Ravi,7459683255,ravi440@gmail.com,,Admission,0,placeholder.png,manual,N/A,2025-06-04 22:05:57,2025-06-10 23:40:41,Checked Out
+18,soban,7845693765,soba2006@gmail.com,company,Student Meeting,1,placeholder.png,qr,pending,2025-06-04 22:07:18,2025-06-10 21:10:26,Checked Out
+19,soban,7845693765,soba2006@gmail.com,company,Student Meeting,1,placeholder.png,preregistration,N/A,2025-06-07 07:15:00,2025-06-10 23:31:56,Checked Out
+20,soban,7845693765,soba2006@gmail.com,company,Student Meeting,0,placeholder.png,qr,pending,2025-06-04 22:08:57,2025-06-10 23:32:25,Checked Out
+21,soban,7845693765,soba2006@gmail.com,company,Student Meeting,0,placeholder.png,preregistration,N/A,2025-06-07 00:10:00,2025-06-11 00:06:32,Checked Out
+22,TBJY,7845693765,harishspranav2006@gmail.com,company,Student Meeting,0,placeholder.png,qr,pending,2025-06-04 23:20:13,2025-06-12 10:51:00,Checked Out
+23,Harish PRANAV S,7845693765,harishspranav2006@gmail.com,company,Student Meeting,0,placeholder.png,qr,pending,2025-06-04 23:20:41,,Checked In
+24,Harish PRANAV S,7845693765,harishspranav2006@gmail.com,,Admission,0,placeholder.png,manual,N/A,2025-06-05 00:03:41,,Checked In
+25,Harish PRANAV S,7845693765,harishspranav2006@gmail.com,company,Student Meeting,0,placeholder.png,qr,pending,2025-06-05 00:04:57,,Checked In
+26,Hemanathan,6383903223,hema055@gmail.com,mkce,Placement Training,0,placeholder.png,qr,pending,2025-06-10 18:58:37,2025-06-10 20:06:48,Checked Out
+27,Hemanathan,6383903223,hema055@gmail.com,mkce,Placement Training,0,placeholder.png,qr,pending,2025-06-10 19:05:59,2025-06-10 21:10:29,Checked Out
+28,soban,9080061674,hema055@gmail.com,mkce,Placement Training,1,placeholder.png,qr,pending,2025-06-10 19:07:37,2025-06-10 21:10:42,Checked Out
+29,Harish PRANAV S,7845693765,harishspranav2006@gmail.com,company,Student Meeting,0,placeholder.png,preregistration,N/A,2026-02-05 05:40:00,,Checked In
+30,Harish PRANAV S,7845693765,harishspranav2006@gmail.com,,Student Meeting,0,placeholder.png,manual,N/A,2025-06-10 21:10:22,,Checked In
+31,Ravi,7459683255,ravi440@gmail.com,,Student Meeting,0,placeholder.png,manual,N/A,2025-06-10 23:31:52,,Checked In
+32,anurag,6383903223,anuraag2006@gmail.com,company,Placement Training,0,placeholder.png,preregistration,N/A,2025-06-17 07:34:00,,Checked In
+33,Peter,8976543210,peterno088@gmail.com,mkce,Project Visit,0,placeholder.png,preregistration,N/A,2025-06-14 07:00:00,2025-06-10 23:40:06,Checked Out
+34,kevin,8976543210,kevinpriyan2509@gmail.com,mkce,Summa,0,placeholder.png,preregistration,N/A,2025-06-14 07:00:00,2025-06-12 09:39:31,Checked Out
+35,Ravi,7459683255,ravi440@gmail.com,,Student Meeting,0,placeholder.png,biometric,N/A,2025-06-11 00:05:15,,Checked In
+36,Harish,8976543210,harish2345@gmail.com,mkce,Summa,0,placeholder.png,preregistration,N/A,2025-06-20 08:38:00,,Checked In
+37,Harish PRANAV S,7845693765,harishspranav2006@gmail.com,,Student Meeting,0,placeholder.png,qr,N/A,2025-06-12 10:50:41,,Checked In
+38,Raja,7845693765,rajarani45@gmail.com,Palace,Summa,0,placeholder.png,preregistration,N/A,2025-06-20 10:52:00,,Checked In

@@ -1,0 +1,430 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visitor Management System</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div>
+                <h1>Visitor Management System</h1>
+                <p class="header-subtitle">Streamline your visitor check-ins and check-outs with our modern, intuitive system</p>
+            </div>
+            <div class="header-actions">
+                <button id="settingsBtn" class="btn btn-secondary btn-icon" title="Settings"><i class="fas fa-cog"></i></button>
+                <button id="helpBtn" class="btn btn-secondary btn-icon" title="Help"><i class="fas fa-question-circle"></i></button>
+                <button id="mobileSwitchBtn" class="btn btn-secondary btn-icon" title="Toggle Mobile View" style="margin-left:8px;"><i class="fas fa-mobile-alt"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <section id="dashboard" class="dashboard">
+            <div class="card" data-section="checkinSection">
+                <div class="card-icon"><i class="fas fa-user-plus"></i></div>
+                <h2 class="card-title">Check-In Visitor</h2>
+                <p class="card-description">Register new visitors entering your premises with ease</p>
+                <i class="fas fa-arrow-right card-arrow"></i>
+            </div>
+            <div class="card" data-section="checkoutSection">
+                <div class="card-icon"><i class="fas fa-user-minus"></i></div>
+                <h2 class="card-title">Check-Out Visitor</h2>
+                <p class="card-description">Record visitor departures quickly and efficiently</p>
+                <i class="fas fa-arrow-right card-arrow"></i>
+            </div>
+            <div class="card" data-section="detailsSection">
+                <div class="card-icon"><i class="fas fa-history"></i></div>
+                <h2 class="card-title">Visitor History</h2>
+                <p class="card-description">View complete visitor logs and analytics reports</p>
+                <i class="fas fa-arrow-right card-arrow"></i>
+            </div>
+            <div class="card" data-section="adminSection">
+                <div class="card-icon"><i class="fas fa-user-shield"></i></div>
+                <h2 class="card-title">Admin Dashboard</h2>
+                <p class="card-description">Manage visitor logs and generate QR codes</p>
+                <i class="fas fa-arrow-right card-arrow"></i>
+            </div>
+            <div class="card" data-section="exit">
+                <div class="card-icon"><i class="fas fa-sign-out-alt"></i></div>
+                <h2 class="card-title">Exit System</h2>
+                <p class="card-description">Return to the main dashboard</p>
+                <i class="fas fa-arrow-right card-arrow"></i>
+            </div>
+        </section>
+
+        <section id="checkinSection" class="container">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-user-plus"></i></div>
+                <div>
+                    <h2 class="section-title">Visitor Check-In</h2>
+                    <p class="section-subtitle">Register new visitors entering your premises</p>
+                </div>
+            </div>
+            <form id="checkinForm">
+                <div class="form-group">
+                    <label for="name" class="form-label">Visitor Name *</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="contact" class="form-label">Contact Number *</label>
+                    <input type="tel" id="contact" name="contact" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" name="email" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="purpose" class="form-label">Purpose of Visit *</label>
+                    <input type="text" id="purpose" name="purpose" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="entryMethod" class="form-label">Entry Method</label>
+                    <select id="entryMethod" name="entryMethod" class="form-control">
+                        <option value="manual">Manual</option>
+                        <option value="qr">QR Code</option>
+                        <option value="biometric">Biometric</option>
+                    </select>
+                </div>
+                <div class="checkbox-container">
+                    <div class="custom-checkbox" id="ndaCheckbox">
+                        <i class="fas fa-check custom-checkbox-icon"></i>
+                    </div>
+                    <input type="checkbox" id="nda" name="nda" style="display: none;">
+                    <label for="nda" class="checkbox-label">Visitor has signed NDA (if applicable)</label>
+                </div>
+                <div class="biometric-container">
+                    <div class="fingerprint-scanner">
+                        <i class="fas fa-fingerprint fingerprint-icon"></i>
+                    </div>
+                    <button type="button" class="biometric-button fingerprint">Scan Fingerprint</button>
+                    <p class="biometric-label">Fingerprint Scan (Mock)</p>
+                </div>
+                <button type="submit" class="btn btn-primary">Check-In Visitor</button>
+            </form>
+            <button class="btn btn-secondary back-button"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+        </section>
+
+        <section id="checkoutSection" class="container">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-user-minus"></i></div>
+                <div>
+                    <h2 class="section-title">Visitor Check-Out</h2>
+                    <p class="section-subtitle">Record visitor departures from your facility</p>
+                </div>
+            </div>
+            <form id="checkoutForm">
+                <div class="form-group">
+                    <label for="checkoutContact" class="form-label">Contact Number *</label>
+                    <input type="tel" id="checkoutContact" name="contact" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Check-Out Visitor</button>
+            </form>
+            <button class="btn btn-secondary back-button"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+        </section>
+
+        <section id="detailsSection" class="container">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-history"></i></div>
+                <div>
+                    <h2 class="section-title">Visitor History</h2>
+                    <p class="section-subtitle">View complete visitor logs and analytics</p>
+                </div>
+            </div>
+            <div class="visitor-count">
+                <div class="count-card">
+                    <div class="count-icon checked-in"><i class="fas fa-user-check"></i></div>
+                    <div>
+                        <div class="count-value" title="Checked In">0</div>
+                        <div class="count-label">Checked In</div>
+                    </div>
+                </div>
+                <div class="count-card">
+                    <div class="count-icon checked-out"><i class="fas fa-user-times"></i></div>
+                    <div>
+                        <div class="count-value" title="Checked Out">0</div>
+                        <div class="count-label">Checked Out</div>
+                    </div>
+                </div>
+                <div class="count-card">
+                    <div class="count-icon total"><i class="fas fa-users"></i></div>
+                    <div>
+                        <div class="count-value" title="Total Visitors">0</div>
+                        <div class="count-label">Total Visitors</div>
+                    </div>
+                </div>
+            </div>
+            <h3>Visitor Log Table</h3>
+            <div class="table-responsive">
+                <table id="visitorTable" class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Contact</th>
+                            <th>Email</th>
+                            <th>Company</th>
+                            <th>Purpose</th>
+                            <th>NDA Signed</th>
+                            <th>Entry Method</th>
+                            <th>Liveness Check</th>
+                            <th>Check-In</th>
+                            <th>Check-Out</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="empty-state" style="display:none;">
+                <i class="fas fa-folder-open empty-state-icon"></i>
+                <h3 class="empty-state-title">No Visitor Records Found</h3>
+                <p class="empty-state-description">Your visitor log is currently empty. Check in your first visitor to get started.</p>
+            </div>
+            <button class="btn btn-secondary back-button"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+        </section>
+
+        <section id="adminSection" class="container">
+            <div class="section-header">
+                <div class="section-icon"><i class="fas fa-user-shield"></i></div>
+                <div>
+                    <h2 class="section-title">Admin Dashboard</h2>
+                    <p class="section-subtitle">Manage visitor logs and generate QR codes for pre-registration</p>
+                </div>
+                <!-- Notification icon for admin -->
+                <div class="notification-icon" id="notificationIcon" title="Notifications" style="position: absolute; top: 20px; right: 40px; cursor: pointer; font-size: 1.8rem; color: #f72585; z-index: 101;">
+                    <i class="fas fa-bell"></i>
+                    <span id="notificationBadge" style="display:none; position:absolute; top:0; right:0; background:#ef233c; color:#fff; border-radius:50%; font-size:0.8rem; padding:2px 6px;">0</span>
+                </div>
+            </div>
+            <div class="admin-search">
+                <input type="text" class="search-input form-control" placeholder="Search by name or contact">
+            </div>
+            <div class="table-responsive">
+                <table id="adminVisitorTable" class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Contact</th>
+                            <th>Email</th>
+                            <th>Company</th>
+                            <th>Purpose</th>
+                            <th>NDA Signed</th>
+                            <th>Entry Method</th>
+                            <th>Liveness Check</th>
+                            <th>Check-In</th>
+                            <th>Check-Out</th>
+                            <th>Status</th>
+                            <th>Overstay</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="empty-state" style="display:none;"></div>
+            <div class="qr-section">
+                <h3>Generate QR Code for Pre-Registration</h3>
+                <div class="form-group">
+                    <label for="qrContact" class="form-label">Contact Number</label>
+                    <input type="tel" id="qrContact" class="form-control" placeholder="Enter contact number">
+                </div>
+                <button id="generateQrBtn" class="btn btn-primary">Generate QR Code</button>
+                <img id="qrCodeImg" class="qr-image" style="display: none;" alt="QR Code">
+                <a id="whatsappShare" class="whatsapp-share" style="display: none;" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Share via WhatsApp
+                </a>
+            </div>
+            <button id="exportLogsBtn" class="btn btn-primary">Export Logs</button>
+            <button class="btn btn-secondary back-button"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+        </section>
+
+        <div class="settings-modal">
+            <div class="settings-content">
+                <div class="feedback-header">
+                    <h2 class="feedback-title">Settings</h2>
+                    <i class="fas fa-times settings-close"></i>
+                </div>
+                <div class="form-group">
+                    <label for="themeGradient" class="form-label">Theme</label>
+                    <select id="themeGradient" class="form-control">
+                        <option value="default">Default</option>
+                        <option value="dark">Dark</option>
+                        <option value="purple">Purple</option>
+                        <option value="teal">Teal</option>
+                        <option value="ocean">Ocean</option>
+                        <option value="forest">Forest</option>
+                        <option value="sunset">Sunset</option>
+                        <option value="cyber">Cyber</option>
+                        <option value="galaxy">Galaxy</option>
+                        <option value="minimal">Minimal</option>
+                        <option value="inferno">Inferno</option>
+                        <option value="crystal">Crystal</option>
+                    </select>
+                </div>
+                <button id="toggleDarkMode" class="btn btn-primary">Toggle Dark Mode</button>
+            </div>
+        </div>
+
+        <div class="feedback-modal">
+            <div class="feedback-content">
+                <div class="feedback-header">
+                    <h2 class="feedback-title">Provide Feedback</h2>
+                    <i class="fas fa-times feedback-close"></i>
+                </div>
+                <form id="feedbackForm" class="feedback-form">
+                    <div class="feedback-type">
+                        <div class="feedback-type-btn active" data-type="help">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Help</span>
+                        </div>
+                        <div class="feedback-type-btn" data-type="report">
+                            <i class="fas fa-bug"></i>
+                            <span>Report</span>
+                        </div>
+                        <div class="feedback-type-btn" data-type="suggest">
+                            <i class="fas fa-lightbulb"></i>
+                            <span>Suggestion</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="feedbackName" class="form-label">Name (Optional)</label>
+                        <input type="text" id="feedbackName" name="name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="feedbackEmail" class="form-label">Email (Optional)</label>
+                        <input type="email" id="feedbackEmail" name="email" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="feedbackMessage" class="form-label">Message *</label>
+                        <textarea id="feedbackMessage" name="message" class="form-control" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="help-modal" style="display: none;">
+            <div class="settings-content">
+                <div class="feedback-header">
+                    <h2 class="feedback-title">Help & Support</h2>
+                    <i class="fas fa-times help-close"></i>
+                </div>
+                <p><strong>Need assistance?</strong> Here's how to use the Visitor Management System:</p>
+                <ul>
+                    <li><strong>Check-In:</strong> Enter visitor details and select entry method (manual, QR, or biometric).</li>
+                    <li><strong>Check-Out:</strong> Enter the contact number to log a visitor's departure.</li>
+                    <li><strong>History:</strong> View all visitor logs with status and timing details.</li>
+                    <li><strong>Admin:</strong> Generate QR codes for pre-registration and export logs.</li>
+                </ul>
+                <p><strong>Contact Support:</strong> Email us at <a href="mailto:support@example.com">support@example.com</a></p>
+            </div>
+        </div>
+
+        <!-- Notification Modal (hidden by default) -->
+        <div id="notificationModal" class="notification-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); z-index:200; align-items:center; justify-content:center;">
+            <div class="notification-modal-content" style="background:#fff; border-radius:12px; box-shadow:0 4px 24px rgba(0,0,0,0.18); padding:2rem; min-width:320px; max-width:90vw; position:relative;">
+                <span id="closeNotificationModal" style="position:absolute; top:12px; right:16px; font-size:1.5rem; color:#888; cursor:pointer;"><i class="fas fa-times"></i></span>
+                <h3 style="margin-top:0;">Notifications</h3>
+                <div id="notificationModalBody" style="margin-top:1rem; color:#555;">No new notifications.</div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            
+            <div class="footer-item">
+                <i class="fas fa-envelope"></i>
+                <span><a href="mailto:harishspranav2006@gmail.com">Contact Us</a></span>
+            </div>
+            <div class="footer-item">
+                <i class="fas fa-phone"></i>
+                <span>+91 7845693765</a></span>
+            </div>
+            <div class="footer-item">
+                <i class="fab fa-linkedin"></i>
+                <span><a href="https://linkedin.com">linkedin</a></span>
+            </div>
+            <div class="footer-item">
+                <i class="fab fa-github"></i>
+                <span><a href="https://github.com/hyprpranav">GitHub</a></span>
+            </div>
+            <div class="footer-item">
+                <i class="fab fa-instagram"></i>
+                <span><a href="https://instagram.com/p_r_a_n_a_v.kvg">Instagram</a></span>
+            </div>
+            <div class="footer-item">
+                <i class="fas fa-code"></i>
+                <span>Developed by Harish Pranav</span>
+            </div>
+            <div class="footer-item">
+                <i class="fas fa-Copyright"></i>
+                <span>Copyright &copy; 2025 Visitor Management System - All rights reserved</span>
+            </div>
+        </div>
+    </footer>
+
+    <div class="feedback-icon">
+        <i class="fas fa-comment"></i>
+    </div>
+
+    <script src="/static/script.js"></script>
+    <script>
+    // Notification icon click handler
+    const notificationIcon = document.getElementById('notificationIcon');
+    const notificationModal = document.getElementById('notificationModal');
+    const closeNotificationModal = document.getElementById('closeNotificationModal');
+    notificationIcon && notificationIcon.addEventListener('click', () => {
+        notificationModal.style.display = 'flex';
+    });
+    closeNotificationModal && closeNotificationModal.addEventListener('click', () => {
+        notificationModal.style.display = 'none';
+    });
+    // Close modal when clicking outside content
+    notificationModal && notificationModal.addEventListener('click', (e) => {
+        if (e.target === notificationModal) notificationModal.style.display = 'none';
+    });
+    </script>
+</body>
+</html>

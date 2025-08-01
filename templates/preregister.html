@@ -1,0 +1,218 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pre-Register Visitor</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div>
+                <h1>Visitor Pre-Registration</h1>
+                <p class="header-subtitle">Pre-register your visit for a seamless check-in experience</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <section class="container" style="display: block;">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-user-plus"></i>
+                    <i class="fi fi-rr-id-badge" style="margin-left:8px;"></i> <!-- Filament pre-registration icon -->
+                </div>
+                <div>
+                    <h2 class="section-title">Pre-Register Visitor</h2>
+                    <p class="section-subtitle">Enter details to pre-register your visit</p>
+                </div>
+            </div>
+            <form id="preRegistrationForm">
+                <div class="form-group">
+                    <label for="name" class="form-label">Visitor Name *</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="contact" class="form-label">Contact Number *</label>
+                    <input type="tel" id="contact" name="contact" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" name="email" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="company" class="form-label">Company</label>
+                    <input type="text" id="company" name="company" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="purpose" class="form-label">Purpose of Visit *</label>
+                    <input type="text" id="purpose" name="purpose" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="visitDate" class="form-label">Intended Visit Date *</label>
+                    <input type="date" id="visitDate" name="visitDate" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="visitTime" class="form-label">Intended Visit Time *</label>
+                    <input type="time" id="visitTime" name="visitTime" class="form-control" required>
+                </div>
+                <div class="checkbox-container">
+                    <div class="custom-checkbox" id="ndaCheckbox">
+                        <i class="fas fa-check custom-checkbox-icon"></i>
+                    </div>
+                    <input type="checkbox" id="nda" name="nda" style="display: none;">
+                    <label for="nda" class="checkbox-label">I have signed an NDA (if applicable)</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Pre-Register</button>
+            </form>
+            <div id="preRegPendingMsg" style="display:none; margin-top:2rem; color:#2a9d8f; font-weight:bold; text-align:center;">
+                Your pre-registration request has been submitted and is pending admin approval.
+            </div>
+            <a href="/" class="btn btn-secondary back-button"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-item">
+                <i class="fas fa-envelope"></i>
+                <span><a href="mailto:harishspranav2006@gmail.com">Contact Us</a></span>
+            </div>
+            <div class="footer-item">
+                <i class="fas fa-phone"></i>
+                <span>+91 7845693765</a></span>
+            </div>
+            <div class="footer-item">
+                <i class="fab fa-linkedin"></i>
+                <span><a href="https://linkedin.com">linkedin</a></span>
+            </div>
+            <div class="footer-item">
+                <i class="fab fa-github"></i>
+                <span><a href="https://github.com/hyprpranav">GitHub</a></span>
+            </div>
+            <div class="footer-item">
+                <i class="fab fa-instagram"></i>
+                <span><a href="https://instagram.com/p_r_a_n_a_v.kvg">Instagram</a></span>
+            </div>
+            <div class="footer-item">
+                <i class="fas fa-code"></i>
+                <span>Developed by Harish Pranav</span>
+            </div>
+            <div class="footer-item">
+                <i class="fas fa-Copyright"></i>
+                <span>Copyright &copy; 2025 Visitor Management System - All rights reserved</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const sanitizeInput = (input) => {
+            const div = document.createElement('div');
+            div.textContent = input;
+            return div.innerHTML;
+        };
+        const showToast = (message, type = 'success') => {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type} show`;
+            toast.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'} toast-icon"></i>
+                <span class="toast-message">${sanitizeInput(message)}</span>
+                <i class="fas fa-times toast-close"></i>
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+            toast.querySelector('.toast-close').addEventListener('click', () => toast.remove());
+        };
+        const urlParams = new URLSearchParams(window.location.search);
+        const contact = urlParams.get('contact');
+        if (contact) {
+            document.getElementById('contact').value = sanitizeInput(contact);
+        }
+        const preRegForm = document.getElementById('preRegistrationForm');
+        const preRegPendingMsg = document.getElementById('preRegPendingMsg');
+        if (preRegForm) {
+            preRegForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const formData = new FormData(preRegForm);
+                const visitor = {
+                    name: formData.get('name'),
+                    contact: formData.get('contact'),
+                    email: formData.get('email'),
+                    company: formData.get('company'),
+                    purpose: formData.get('purpose'),
+                    visitDate: formData.get('visitDate'),
+                    visitTime: formData.get('visitTime'),
+                    nda_signed: formData.get('nda') ? true : false
+                };
+                try {
+                    const res = await fetch('/api/preregister', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify(visitor)
+                    });
+                    if (res.ok) {
+                        alert('Thank you, your request has been submitted.');
+                        preRegForm.reset();
+                        preRegForm.style.display = 'none';
+                        preRegPendingMsg.style.display = 'block';
+                    } else {
+                        const data = await res.json();
+                        showToast(data.error || 'Failed to submit pre-registration.', 'error');
+                    }
+                } catch (err) {
+                    showToast('Failed to submit pre-registration.', 'error');
+                }
+            });
+        }
+        document.getElementById('ndaCheckbox').addEventListener('click', () => {
+            const checkbox = document.getElementById('nda');
+            const isChecked = !checkbox.checked;
+            checkbox.checked = isChecked;
+            document.getElementById('ndaCheckbox').classList.toggle('checked', isChecked);
+        });
+    });
+    </script>
+</body>
+</html>

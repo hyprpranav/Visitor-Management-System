@@ -1,0 +1,7 @@
+Flask==2.3.2
+Flask-Cors==4.0.0
+pydantic==2.7.1
+sqlite3==3.41.2
+qrcode==7.4.2
+Pillow==10.3.0
+python-logging==0.4.9.6

@@ -1,0 +1,4 @@
+ID,Name,Contact,Email,Company,Purpose,NDA Signed,Photo,Entry Method,Liveness Check,Check-In Time,Check-Out Time,Status
+1,Harish Pranav s,7845693765,harishspranav2006@gmail.com,, summa,0,placeholder.png,qr,N/A,2025-06-03 22:06:11,2025-06-03 22:06:42,Checked Out
+2,Harish PRANAV S,7845693765,harishspranav2006@gmail.com,,Student Meeting,0,placeholder.png,manual,N/A,2025-06-03 22:06:55,2025-06-03 22:07:01,Checked Out
+3,Harish PRANAV S,123456,harishspranav2006@gmail.com,company,temple,0,placeholder.png,qr,pending,2025-06-03 22:13:35,,Checked In
